@@ -33,7 +33,11 @@ function renderStats() {
 }
 function scholarshipAllocation() {
     const ranked = students.map(student => ({ student, result: resultFor(student.id) })).filter(x => x.result).sort((a,b) => b.result.average - a.result.average || a.student.id.localeCompare(b.student.id));
-    const n = ranked.length, first = Math.ceil(n * .10), second = Math.ceil(n * .30), third = Math.ceil(n * .50);
+    const n = ranked.length;
+
+const first = Math.ceil(n * 0.10);
+const second = Math.ceil(n * 0.20);
+const third = Math.ceil(n * 0.20);
     const groups = [
         { name:'Top 10%', count:first, pool:40000000 },
         { name:'Top 10%–40%', count:second, pool:40000000 },
