@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý điểm sinh viên</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="css/modal.css">
+</head>
+
+<body>
+    <header class="page-header">
+        <div>
+            <h1>Quản lý điểm sinh viên</h1>
+            <p>Lớp CNTT1-K18 · Học kỳ 1</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="summary">
+            <div class="summary-card">
+                <span>Tổng sinh viên</span>
+                <strong id="totalStudents">0</strong>
+            </div>
+            <div class="summary-card">
+                <span>Điểm trung bình lớp</span>
+                <strong id="classAverage">0.00</strong>
+            </div>
+            <div class="summary-card">
+                <span>Sinh viên đạt học bổng</span>
+                <strong id="scholarshipCount">0</strong>
+            </div>
+        </section>
+
+        <nav class="tab-nav" aria-label="Chức năng">
+            <button class="tab-button active" data-tab="studentsPanel">Danh sách sinh viên</button>
+            <button class="tab-button" data-tab="statsPanel">Thống kê</button>
+            <button class="tab-button" data-tab="comparePanel">So sánh sinh viên</button>
+            <button class="tab-button" data-tab="scholarshipPanel">Học bổng 100 triệu</button>
+        </nav>
+
+        <section class="panel tab-panel" id="studentsPanel">
+            <div class="panel-heading">
+                <div>
+                    <h2>Bảng điểm của lớp</h2>
+                    <p>Chọn một sinh viên để xem điểm chi tiết.</p>
+                </div>
+
+                <input type="search" id="searchInput" placeholder="Tìm theo mã hoặc tên sinh viên..."
+                    aria-label="Tìm sinh viên">
+            </div>
+
+            <div id="loadingMessage" class="message">Đang tải dữ liệu...</div>
+            <div id="errorMessage" class="message error" hidden></div>
+
+            <div class="table-wrapper">
+                <table id="studentTable">
+                    <thead id="tableHead"></thead>
+                    <tbody id="studentTableBody"></tbody>
+                </table>
+            </div>
+
+            <p id="resultCount" class="result-count"></p>
+        </section>
+
+        <section class="panel tab-panel" id="statsPanel" hidden>
+            <div class="panel-heading"><div><h2>Thống kê kết quả học tập</h2><p>Phân loại học lực và thống kê điểm theo từng môn.</p></div></div>
+            <div class="summary stats-summary">
+                <div class="summary-card"><span>Sinh viên có điểm</span><strong id="statsCount">0</strong></div>
+                <div class="summary-card"><span>Điểm trung bình cao nhất</span><strong id="highestAverage">0.00</strong></div>
+                <div class="summary-card"><span>Điểm trung bình thấp nhất</span><strong id="lowestAverage">0.00</strong></div>
+            </div>
+            <h3>Số lượng sinh viên theo xếp loại</h3><div id="classificationChart" class="chart-list"></div>
+            <h3>Thống kê điểm từng môn</h3>
+            <div class="table-wrapper"><table><thead><tr><th>Môn học</th><th>Điểm trung bình</th><th>Điểm thấp nhất</th><th>Điểm cao nhất</th></tr></thead><tbody id="subjectStats"></tbody></table></div>
+            <h3>Sinh viên có điểm trung bình dưới 5</h3><ul id="underFive" class="under-five-list"></ul>
+        </section>
+
+        <section class="panel tab-panel" id="comparePanel" hidden>
+            <h2>So sánh kết quả học tập</h2><p>Chọn hai sinh viên để đối chiếu điểm 5 môn và điểm trung bình học kỳ.</p>
+            <div class="compare-selectors"><label>Sinh viên thứ nhất<select id="compareA"></select></label><label>Sinh viên thứ hai<select id="compareB"></select></label></div>
+            <div class="table-wrapper"><table><thead><tr><th>Môn học</th><th>Điểm sinh viên 1</th><th>Điểm sinh viên 2</th></tr></thead><tbody id="comparisonBody"></tbody></table></div>
+        </section>
+
+        <section class="panel tab-panel" id="scholarshipPanel" hidden>
+            <h2>Phân bổ quỹ học bổng 100.000.000 VNĐ</h2>
+            <p>Xếp hạng theo điểm trung bình học kỳ giảm dần. Top 10% nhận 40% quỹ; nhóm tiếp theo đến top 40% nhận 40%; nhóm tiếp theo đến top 90% nhận 20%. Mỗi suất được làm tròn theo 1.000 VNĐ và phần dư được phân bổ để tổng quỹ chính xác.</p>
+            <p class="fund-total">Tổng học bổng đã phân bổ: <strong id="scholarshipTotal">0 ₫</strong></p>
+            <div class="table-wrapper"><table><thead><tr><th>Hạng</th><th>Mã SV</th><th>Họ và tên</th><th>Điểm TB</th><th>Nhóm</th><th>Học bổng</th></tr></thead><tbody id="scholarshipTable"></tbody></table></div>
+        </section>
+    </main>
+
+    <div id="studentModal" class="modal" hidden>
+        <div class="modal-backdrop" data-close-modal></div>
+
+        <section class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-header">
+                <h2 id="modalTitle">Chi tiết sinh viên</h2>
+                <button id="closeModal" class="close-button" aria-label="Đóng">
+                    &times;
+                </button>
+            </div>
+
+            <div id="studentDetail"></div>
+        </section>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>
